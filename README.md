@@ -94,11 +94,12 @@ We assume you have already run the base variant caller as their manual suggested
 <a name="conda-usage"></a>
 ### Conda/compiled usage
 
-Firstly run the python script `scripts/union_candidates.py` to generate a VCF file of candidates loci as an input to Moss. For example you can run the toy example in `data/`:
+Firstly run the python script `scripts/union_candidates.py` to generate a VCF file of candidates loci as an input to Moss, and run `scripts/use_normal_gt.py` to extract the normal sample allele. For example you can run the toy example in `data/`:
 
 ```bash
 cd data
 python ../scripts/union_candidates.py -f samples.list --normal-name sample0 -t strelka -o candidates.vcf
+python ../scripts/use_normal_gt.py -f samples.list --normal-name sample0 -t strelka -o normal_gt.vcf
 ```
 
 To run Moss, you need a reference genome FASTA file, BAM files for normal and tumor samples, realigned BAM files (optional but recommended), and a candidate loci VCF.
@@ -106,7 +107,7 @@ For example, after you've built `moss` in the `build/` directory, you can contin
 
 ``` bash
 cd build
-./moss -r ../data/demo20.fa -b ../data/normal.sort.bam -R ../data/empty.bam -b ../data/sample0.spike.sort.bam -R ../data/empty.bam -b ../data/sample1.spike.sort.bam -R ../data/empty.bam -b ../data/sample2.spike.sort.bam -R ../data/empty.bam -b ../data/sample3.spike.sort.bam -R ../data/empty.bam -l ../data/candidates.vcf -m 4 -t -0.693 --ignore0 --grid-size 200 -o example.vcf
+./moss -r ../data/demo20.fa -b ../data/normal.sort.bam -R ../data/empty.bam -b ../data/sample0.spike.sort.bam -R ../data/empty.bam -b ../data/sample1.spike.sort.bam -R ../data/empty.bam -b ../data/sample2.spike.sort.bam -R ../data/empty.bam -b ../data/sample3.spike.sort.bam -R ../data/empty.bam -l ../data/candidates.vcf -n ../data/normal_gt.vcf -m 4 -t -0.693 --ignore0 --grid-size 200 -o example.vcf
 ```
 
 Finally, we filter the result VCF file:
